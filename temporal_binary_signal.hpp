@@ -4,9 +4,9 @@
 #include <iostream>
 
 enum class State {
+    on,
     off,
     just_on,
-    on,
     just_off
 };
 
