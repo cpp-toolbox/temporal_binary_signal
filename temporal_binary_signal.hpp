@@ -17,12 +17,25 @@ class TemporalBinarySignal {
     void toggle_state();
     // process must be called every timestep
     void process();
-    State get_state() const;
+    State get_current_state() const;
+    State get_next_state() const;
+
+    bool is_on() const;
+    bool is_off() const;
     bool is_just_on() const;
     bool is_just_off() const;
     bool has_just_changed() const;
-    bool is_on() const;
-    bool is_off() const;
+
+    bool next_is_on() const;
+    bool next_is_off() const;
+    bool next_is_just_on() const;
+    bool next_is_just_off() const;
+    bool next_has_just_changed() const;
+
+    bool is_on(State state) const;
+    bool is_off(State state) const;
+    bool is_just_on(State state) const;
+    bool is_just_off(State state) const;
 
     // static function to process all active signals
     static void process_all();
