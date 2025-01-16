@@ -2,14 +2,9 @@
 
 #include <algorithm> // included for std::remove
 
-// todo add in functions which can check if it *will* go to the just_changed state on the next tick, "next tick
-// lookahead"...
-
-// Initialize the static container
 std::vector<TemporalBinarySignal *> TemporalBinarySignal::active_signals;
 
 TemporalBinarySignal::TemporalBinarySignal() : current_state(State::off), raw_signal(false) {
-    // Add this instance to the active signals list
     active_signals.push_back(this);
 }
 
@@ -17,6 +12,20 @@ TemporalBinarySignal::~TemporalBinarySignal() {
     active_signals.erase(std::remove(active_signals.begin(), active_signals.end(), this), active_signals.end());
 }
 
+std::string TemporalBinarySignal::get_current_state_string() {
+    switch (current_state) {
+    case State::on:
+        return "on";
+    case State::off:
+        return "off";
+    case State::just_on:
+        return "just_on";
+    case State::just_off:
+        return "just_off";
+    default:
+        return "unknown";
+    }
+}
 void TemporalBinarySignal::set_signal(bool value) { raw_signal = value; }
 
 void TemporalBinarySignal::set_on() { raw_signal = true; }

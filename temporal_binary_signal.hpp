@@ -22,9 +22,12 @@ class TemporalBinarySignal {
     // process must be called every timestep
     void process();
     State get_current_state() const;
+    std::string get_current_state_string();
 
     // this function should be called
     State get_next_state() const;
+
+    bool logging_enabled = false;
 
     bool is_on() const;
     bool is_off() const;
