@@ -11,8 +11,16 @@ enum class State { on, off, just_on, just_off };
 
 class TemporalBinarySignal {
   public:
-    TemporalBinarySignal();
-    ~TemporalBinarySignal();
+    TemporalBinarySignal();                                                 // construct
+    TemporalBinarySignal(const TemporalBinarySignal &other);                // copy
+    TemporalBinarySignal(TemporalBinarySignal &&other) noexcept;            // move
+    ~TemporalBinarySignal();                                                // destruct
+    TemporalBinarySignal &operator=(const TemporalBinarySignal &other);     // copy assignment
+    TemporalBinarySignal &operator=(TemporalBinarySignal &&other) noexcept; // move assignment
+
+    void add_to_active_signals();
+    void remove_from_active_signals();
+    void display_num_active_signals();
 
     void set_signal(bool value);
     void set_on();

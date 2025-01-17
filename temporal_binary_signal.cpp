@@ -5,11 +5,57 @@
 std::vector<TemporalBinarySignal *> TemporalBinarySignal::active_signals;
 
 TemporalBinarySignal::TemporalBinarySignal() : current_state(State::off), raw_signal(false) {
-    active_signals.push_back(this);
+    add_to_active_signals();
+    std::cout << "tbs constructor called" << std::endl;
+}
+
+TemporalBinarySignal::TemporalBinarySignal(const TemporalBinarySignal &other)
+    : current_state(other.current_state), raw_signal(other.raw_signal),
+      num_times_signal_set_since_last_process(other.num_times_signal_set_since_last_process),
+      state_history(other.state_history) {
+    add_to_active_signals();
+    std::cout << "tbs copy constructor called" << std::endl;
+}
+
+TemporalBinarySignal::TemporalBinarySignal(TemporalBinarySignal &&other) noexcept
+    : current_state(std::move(other.current_state)), raw_signal(std::move(other.raw_signal)),
+      num_times_signal_set_since_last_process(std::move(other.num_times_signal_set_since_last_process)),
+      state_history(std::move(other.state_history)) {
+    add_to_active_signals();
+    std::cout << "tbs move constructor called" << std::endl;
 }
 
 TemporalBinarySignal::~TemporalBinarySignal() {
+    remove_from_active_signals();
+    std::cout << "tbs destructor called" << std::endl;
+}
+
+TemporalBinarySignal &TemporalBinarySignal::operator=(const TemporalBinarySignal &other) {
+    if (this != &other) {
+        current_state = other.current_state;
+        raw_signal = other.raw_signal;
+        num_times_signal_set_since_last_process = other.num_times_signal_set_since_last_process;
+        state_history = other.state_history;
+    }
+    return *this;
+}
+
+TemporalBinarySignal &TemporalBinarySignal::operator=(TemporalBinarySignal &&other) noexcept {
+    if (this != &other) {
+        current_state = std::move(other.current_state);
+        raw_signal = std::move(other.raw_signal);
+        num_times_signal_set_since_last_process = std::move(other.num_times_signal_set_since_last_process);
+        state_history = std::move(other.state_history);
+    }
+    return *this;
+}
+
+void TemporalBinarySignal::add_to_active_signals() { active_signals.push_back(this); }
+void TemporalBinarySignal::remove_from_active_signals() {
     active_signals.erase(std::remove(active_signals.begin(), active_signals.end(), this), active_signals.end());
+}
+void TemporalBinarySignal::display_num_active_signals() {
+    std::cout << "total active signals: " << active_signals.size() << "\n";
 }
 
 std::string TemporalBinarySignal::get_current_state_string() {
