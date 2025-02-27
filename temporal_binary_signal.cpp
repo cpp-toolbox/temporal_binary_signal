@@ -4,17 +4,13 @@
 
 std::vector<TemporalBinarySignal *> TemporalBinarySignal::active_signals;
 
-TemporalBinarySignal::TemporalBinarySignal() : current_state(State::off), raw_signal(false) {
-    add_to_active_signals();
-    std::cout << "tbs constructor called" << std::endl;
-}
+TemporalBinarySignal::TemporalBinarySignal() : current_state(State::off), raw_signal(false) { add_to_active_signals(); }
 
 TemporalBinarySignal::TemporalBinarySignal(const TemporalBinarySignal &other)
     : current_state(other.current_state), raw_signal(other.raw_signal),
       num_times_signal_set_since_last_process(other.num_times_signal_set_since_last_process),
       state_history(other.state_history) {
     add_to_active_signals();
-    std::cout << "tbs copy constructor called" << std::endl;
 }
 
 TemporalBinarySignal::TemporalBinarySignal(TemporalBinarySignal &&other) noexcept
@@ -22,13 +18,9 @@ TemporalBinarySignal::TemporalBinarySignal(TemporalBinarySignal &&other) noexcep
       num_times_signal_set_since_last_process(std::move(other.num_times_signal_set_since_last_process)),
       state_history(std::move(other.state_history)) {
     add_to_active_signals();
-    std::cout << "tbs move constructor called" << std::endl;
 }
 
-TemporalBinarySignal::~TemporalBinarySignal() {
-    remove_from_active_signals();
-    std::cout << "tbs destructor called" << std::endl;
-}
+TemporalBinarySignal::~TemporalBinarySignal() { remove_from_active_signals(); }
 
 TemporalBinarySignal &TemporalBinarySignal::operator=(const TemporalBinarySignal &other) {
     if (this != &other) {
