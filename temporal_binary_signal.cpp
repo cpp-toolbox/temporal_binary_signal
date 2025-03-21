@@ -75,7 +75,7 @@ void TemporalBinarySignal::toggle_state() { raw_signal = not raw_signal; }
 void TemporalBinarySignal::process() {
     State next_state = get_next_state();
     current_state = next_state;
-    state_history.add(next_state);
+    /*state_history.add(next_state);*/
 }
 
 State TemporalBinarySignal::get_current_state() const { return current_state; }
@@ -123,6 +123,7 @@ bool TemporalBinarySignal::is_off(State state) const { return state == State::of
 bool TemporalBinarySignal::is_just_on(State state) const { return state == State::just_on; }
 bool TemporalBinarySignal::is_just_off(State state) const { return state == State::just_off; }
 
+// NOTE: this probalby doesn't work
 bool TemporalBinarySignal::is_double_tapped() {
     auto now = std::chrono::steady_clock::now();
     auto one_second_ago = now - std::chrono::seconds(1);
